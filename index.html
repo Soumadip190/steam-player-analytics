@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Steam Analytics — Player Analytics &amp; Recommendation A/B Testing</title>
+<meta name="description" content="Data science case study: Steam player segmentation and a simulated A/B test of personalized recommendations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="assets/chart.umd.js" defer></script>
+<script src="script.js" defer></script>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top"><span class="dot"></span>Steam Analytics</a>
+    <button class="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="links">☰</button>
+    <nav id="links" class="links" aria-label="Primary">
+      <a href="#overview">Overview</a><a href="#methodology">Methodology</a><a href="#story">Data Story</a><a href="#segments">Player Segments</a><a href="#ab">A/B Testing</a><a href="#insights">Insights</a>
+      <a class="btn primary sm" href="https://steam-player-analytics-eacgzqbws2mp49k7t6pob6.streamlit.app/" target="_blank" rel="noopener">Explore Dashboard</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero wrap">
+  <div class="hero-copy reveal">
+    <span class="pill">DATA SCIENCE PROJECT · 2026</span>
+    <h1>Understanding Players.<br><span class="blue">Improving Recommendations.</span></h1>
+    <p class="lead">An end-to-end data science project exploring Steam player behaviour, discovering player segments, and evaluating personalized game recommendations through a simulated A/B testing framework.</p>
+    <div class="row"><a class="btn primary" href="#overview">Explore Analytics</a><a class="btn ghost" href="https://github.com/Soumadip190/steam-player-analytics/tree/main" target="_blank" rel="noopener">View Source Code</a></div>
+  </div>
+  <div class="hero-vis reveal" aria-hidden="true">
+    <div class="shape sh1"></div><div class="shape sh2"></div>
+    <div class="card float c1"><small>Players analysed</small><b>12,393</b></div>
+    <div class="card float c2"><small>Simulated conv. lift</small><b class="teal">+2.21 pp</b></div>
+    <div class="card main-chart"><small>Conversion rate (simulated)</small><canvas id="heroChart" height="150"></canvas></div>
+    <div class="card float c3"><small>Segments</small>
+      <div class="seg-bar"><i style="flex:6578"></i><i style="flex:3945"></i><i style="flex:1870"></i></div></div>
+  </div>
+</section>
+
+<section id="overview" class="sec wrap">
+  <h2 class="reveal">A data-driven approach to understanding gaming behaviour.</h2>
+  <div class="grid3">
+    <article class="card reveal"><span class="ico">01</span><h3>Player Behaviour Analysis</h3><p>Explore gameplay hours, purchases, game preferences, and engagement patterns.</p></article>
+    <article class="card reveal"><span class="ico">02</span><h3>Player Segmentation</h3><p>Use K-Means clustering to identify different types of Steam players.</p></article>
+    <article class="card reveal"><span class="ico">03</span><h3>Recommendation Experiment</h3><p>Compare generic recommendations against personalized recommendations using a simulated A/B testing framework.</p></article>
+  </div>
+  <div class="stats reveal">
+    <div><b data-count="12393">0</b><span>unique players</span></div>
+    <div><b data-count="5155">0</b><span>unique games</span></div>
+    <div><b data-count="3">0</b><span>player segments</span></div>
+  </div>
+  <p class="note">Observed statistics come from the historical Steam dataset (200,000 original records).</p>
+</section>
+
+<section id="methodology" class="sec alt"><div class="wrap">
+  <h2 class="reveal">From raw data to actionable insights.</h2>
+  <ol class="steps">
+    <li class="card reveal"><span class="ico">1</span><h3>Data Collection</h3><p>Steam historical player behaviour dataset. 200,000 original records.</p></li>
+    <li class="card reveal"><span class="ico">2</span><h3>Data Cleaning</h3><p>Duplicate removal. Missing-value handling. Feature preparation.</p></li>
+    <li class="card reveal"><span class="ico">3</span><h3>Exploratory Data Analysis</h3><p>Gameplay distribution. Purchase behaviour. Player engagement patterns.</p></li>
+    <li class="card reveal"><span class="ico">4</span><h3>Player Segmentation</h3><p>Log transformation of playtime. StandardScaler. K-Means with k = 3.</p></li>
+    <li class="card reveal"><span class="ico">5</span><h3>A/B Testing</h3><p>Randomized synthetic control and treatment groups. Conversion-rate comparison. Statistical hypothesis testing.</p></li>
+  </ol>
+</div></section>
+
+<section id="story" class="sec wrap">
+  <h2 class="reveal">The story the data tells.</h2>
+  <p class="lead reveal">Four charts from the exploratory analysis, from raw behaviour to discovered segments. Click any chart to enlarge.</p>
+  <article class="chap reveal">
+    <button class="card sfig" data-full="assets/top-games-playtime.png" aria-label="Enlarge chart: Top 15 games by total recorded playtime (horizontal bar chart)"><img loading="lazy" src="assets/top-games-playtime.png" alt="Top 15 games by total recorded playtime (horizontal bar chart)"></button>
+    <div class="ctext"><span class="kicker">Chapter 1 · Where the hours go</span><h3>Playtime is concentrated in a few titles.</h3><p>Dota 2 leads with close to a million recorded hours, followed by Counter-Strike Global Offensive and Team Fortress 2. Engagement is dominated by a handful of long-running multiplayer games, while most of the catalogue sees far less play.</p><span class="tag">Observed in the historical dataset.</span></div>
+  </article>
+  <article class="chap flip reveal">
+    <button class="card sfig" data-full="assets/log-playtime.png" aria-label="Enlarge chart: Histogram of log-transformed player playtime"><img loading="lazy" src="assets/log-playtime.png" alt="Histogram of log-transformed player playtime"></button>
+    <div class="ctext"><span class="kicker">Chapter 2 · Most players barely play</span><h3>Raw playtime is heavily skewed, so we transform it.</h3><p>A large spike of players sits near zero hours, with a long tail of heavy players. Applying log(1 + hours) makes the distribution workable for clustering, which is why the pipeline uses a log transformation before scaling.</p><span class="tag">Motivates the log transform used in segmentation.</span></div>
+  </article>
+  <article class="chap reveal">
+    <button class="card sfig" data-full="assets/purchases-vs-playtime.png" aria-label="Enlarge chart: Scatter plot of total purchased games against total playtime"><img loading="lazy" src="assets/purchases-vs-playtime.png" alt="Scatter plot of total purchased games against total playtime"></button>
+    <div class="ctext"><span class="kicker">Chapter 3 · Buying and playing are related, loosely</span><h3>More games owned tends to mean more hours, but not reliably.</h3><p>The notebook measures a Pearson correlation of 0.47 and a Spearman correlation of 0.55: a moderate positive relationship. Plenty of players own few games and still log thousands of hours, so purchases alone cannot describe engagement.</p><span class="tag">Correlation only, not a causal claim.</span></div>
+  </article>
+  <article class="chap flip reveal">
+    <button class="card sfig" data-full="assets/cluster-scatter.png" aria-label="Enlarge chart: Scatter plot of K-Means clusters by log playtime and purchased games"><img loading="lazy" src="assets/cluster-scatter.png" alt="Scatter plot of K-Means clusters by log playtime and purchased games"></button>
+    <div class="ctext"><span class="kicker">Chapter 4 · Three behavioural segments emerge</span><h3>K-Means separates players by playtime and library size.</h3><p>Cluster 0 holds low-playtime players, Cluster 1 regular players, and Cluster 2 the dedicated players with the largest libraries and longest playtime. These are behavioural segments derived from the available features, not verified player types.</p><span class="tag">Chart colours are from the original notebook.</span></div>
+  </article>
+  <dialog id="lb"><button autofocus>Close</button><img alt=""></dialog>
+</section>
+
+<section id="segments" class="sec wrap">
+  <h2 class="reveal">Not every gamer behaves the same way.</h2>
+  <div class="grid3">
+    <article class="card seg sg0 reveal"><h3>Cluster 0 — Casual Players</h3><b>6,578 players</b><ul><li>Median owned games: 1</li><li>Median playtime: 1.5 hours</li></ul></article>
+    <article class="card seg sg1 reveal"><h3>Cluster 1 — Regular Players</h3><b>3,945 players</b><ul><li>Median owned games: 3</li><li>Median playtime: 92 hours</li></ul></article>
+    <article class="card seg sg2 reveal"><h3>Cluster 2 — Dedicated Players</h3><b>1,870 players</b><ul><li>Median owned games: 27</li><li>Median playtime: 721.1 hours</li></ul></article>
+  </div>
+  <div class="card chart-card reveal"><h3>Player distribution across clusters</h3><div class="cv"><canvas id="clusterChart"></canvas></div></div>
+  <p class="insight">Player segmentation helps identify differences in engagement and supports more relevant recommendation strategies. These are behavioural segments derived from the available features, not verified psychological player types.</p>
+</section>
+
+
+<section id="ab" class="sec alt"><div class="wrap">
+  <h2 class="reveal">Do personalized recommendations perform better?</h2>
+  <p class="lead reveal"><b>Group A:</b> Generic recommendations (Control). <b>Group B:</b> Personalized recommendations (Treatment).</p>
+  <div class="limit reveal" role="note"><b>Simulated results.</b> These outcomes were generated synthetically, not drawn from real Steam recommendation exposures or observed user conversions.</div>
+  <div class="two">
+    <div class="card reveal"><table>
+      <thead><tr><th>Metric</th><th class="a">Control A</th><th class="b">Treatment B</th></tr></thead>
+      <tbody><tr><td>Players</td><td>6,265</td><td>6,128</td></tr><tr><td>Clicks</td><td>749</td><td>992</td></tr><tr><td>Conversions</td><td>421</td><td>547</td></tr><tr><td>CTR</td><td>11.96%</td><td>16.19%</td></tr><tr><td>Conversion Rate</td><td>6.72%</td><td>8.93%</td></tr></tbody></table></div>
+    <div class="kpis reveal">
+      <div class="card kpi"><small>Conversion lift</small><b class="teal">+2.21 pp</b></div>
+      <div class="card kpi"><small>Relative lift</small><b class="teal">+32.83%</b></div>
+      <div class="card kpi"><small>CTR lift</small><b class="teal">+4.23 pp</b></div>
+      <div class="card kpi"><small>P-value</small><b>≈ 0.00000473</b></div>
+    </div>
+  </div>
+  <div class="two">
+    <div class="card chart-card reveal"><h3>Conversion rate and CTR</h3><div class="cv"><canvas id="abChart"></canvas></div></div>
+    <div class="card reveal lift"><h3>Conversion lift</h3>
+      <div class="lbar"><span>Control 6.72%</span><i class="fillA" style="--w:75.3%"></i></div>
+      <div class="lbar"><span>Treatment 8.93%</span><i class="fillB" style="--w:100%"></i></div>
+      <p class="sig"><span class="badge">Statistically significant</span> 95% CI for absolute lift: +1.26 to +3.16 pp</p>
+      <p>The simulated experiment showed a statistically significant difference in conversion rates between the control and treatment groups.</p></div>
+  </div>
+
+  <h2 class="reveal sub">How does personalization perform across player segments?</h2>
+  <div class="two">
+    <div class="card chart-card reveal"><div class="cv"><canvas id="segChart"></canvas></div></div>
+    <div class="card reveal"><table>
+      <thead><tr><th>Segment</th><th class="a">Control</th><th class="b">Treatment</th><th>Lift</th></tr></thead>
+      <tbody><tr><td>Casual</td><td>5.01%</td><td>7.00%</td><td>+1.99 pp</td></tr><tr><td>Regular</td><td>8.04%</td><td>9.10%</td><td>+1.06 pp</td></tr><tr><td>Dedicated</td><td>10.03%</td><td>15.22%</td><td>+5.19 pp</td></tr></tbody></table>
+      <ul class="plain"><li>Casual and Dedicated showed statistically significant differences after Holm correction.</li><li>Regular did not show a statistically significant difference.</li><li>The interaction test did not show significant evidence that effects differ across clusters (LR test p = 0.14276).</li></ul>
+      <p class="note">Significance in one segment and not another does not establish that treatment effects differ between segments.</p></div>
+  </div>
+</div></section>
+
+<section id="insights" class="sec wrap">
+  <h2 class="reveal">Turning analytical findings into product decisions.</h2>
+  <div class="grid3">
+    <article class="card reveal"><span class="ico">A</span><h3>Personalization Strategy</h3><p>Use behavioural patterns to create more relevant recommendation experiences.</p></article>
+    <article class="card reveal"><span class="ico">B</span><h3>Segment-Based Experimentation</h3><p>Test recommendation strategies across player segments with sufficient sample sizes.</p></article>
+    <article class="card reveal"><span class="ico">C</span><h3>Continuous Measurement</h3><p>Monitor click-through rates, conversions, retention, and engagement in a real production experiment.</p></article>
+  </div>
+  <div class="card impact reveal"><h3>Business impact (illustrative)</h3><p>If a properly instrumented production experiment found a conversion improvement, the value would depend on traffic, margins, and retention effects. Any forecast built from this project’s simulated lift is an illustrative assumption, not a measured business outcome.</p></div>
+
+  <div class="info reveal"><h3>Limitations &amp; research integrity</h3>
+    <ul class="plain"><li>The dataset contains historical observational behaviour.</li><li>It has no actual recommendation exposure or randomized assignments.</li><li>A/B testing outcomes were synthetically generated.</li><li>Clicks and conversions were generated independently, so this is not a true click-to-purchase funnel.</li><li>The project does not establish real causal effects on Steam users.</li><li>Real-world deployment would require a properly instrumented randomized experiment.</li></ul></div>
+</section>
+
+<section class="cta"><div class="wrap">
+  <h2 class="reveal">Explore the analysis. See the data behind the decisions.</h2>
+  <div class="row c"><a class="btn primary" href="https://steam-player-analytics-eacgzqbws2mp49k7t6pob6.streamlit.app/" target="_blank" rel="noopener">Explore Interactive Dashboard</a><a class="btn ghost" href="https://github.com/Soumadip190/steam-player-analytics/tree/main" target="_blank" rel="noopener">View GitHub Repository</a></div>
+</div></section>
+</main>
+
+<footer class="foot"><div class="wrap">
+  <b>Steam Player Analytics &amp; Personalized Recommendation A/B Testing</b>
+  <span>Python · Pandas · NumPy · Scikit-learn · Statsmodels · Streamlit · Plotly</span>
+  <span><a href="https://github.com/Soumadip190/steam-player-analytics/tree/main" target="_blank" rel="noopener">GitHub</a> · © 2026</span>
+</div></footer>
+</body>
+</html>
