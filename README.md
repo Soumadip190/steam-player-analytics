@@ -115,7 +115,6 @@ steam-player-analytics/
 │   ├── cleaned_steam_data.csv
 │   └── simulated_ab_test_data.csv
 │
-├── plots/
 │
 ├── requirements.txt
 ├── .gitignore
